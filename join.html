@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Social Orbit | Your Third Space</title>
+    <!-- SEO meta tags -->
+    <meta name="description" content="Social Orbit — a Gen Z social society based in Lahore, Pakistan. Your third space to meet real people.">
+    <!-- Preload Critical Assets -->
+    <link rel="preload" href="Orbit Logo - Purple.png" as="image">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- ── Scroll-Driven Orbit Background ── -->
+    <svg id="orbit-bg" viewBox="0 0 1440 900" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+      <!-- Outer ring -->
+      <ellipse id="orbit-ring-1" cx="720" cy="450" rx="650" ry="310"
+               stroke="#f0a500" stroke-width="1.2" opacity="0.18" />
+      <!-- Middle ring -->
+      <ellipse id="orbit-ring-2" cx="720" cy="450" rx="460" ry="210"
+               stroke="#c45c13" stroke-width="0.9" opacity="0.15" />
+      <!-- Inner ring -->
+      <ellipse id="orbit-ring-3" cx="720" cy="450" rx="270" ry="118"
+               stroke="#f0a500" stroke-width="0.7" opacity="0.12" />
+      <!-- Planet dot (travels outer ring) -->
+      <circle id="orbit-planet" cx="0" cy="0" r="5"
+              fill="#f0a500" opacity="0.55" filter="url(#planet-glow)" />
+      <defs>
+        <filter id="planet-glow" x="-100%" y="-100%" width="300%" height="300%">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+    </svg>
+
+    <div id="noise-overlay"></div>
+
+    <nav id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <img src="Orbit Logo - Purple.png" alt="Social Orbit Logo" class="nav-logo-img">
+                Social Orbit
+            </a>
+            <div class="nav-links desktop-only">
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="events.html">Events</a>
+                <a href="the-orbit-way.html">The Orbit Way</a>
+                <a href="join.html">Join</a>
+            </div>
+            <div class="nav-right desktop-only">
+                <a href="events.html" class="btn btn-pill">grab a spot</a>
+            </div>
+            <button class="hamburger mobile-only">
+                <i data-lucide="menu"></i>
+            </button>
+        </div>
+    </nav>
+
+    <div class="mobile-menu">
+        <button class="close-menu"><i data-lucide="x"></i></button>
+        <div class="mobile-nav-links">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="events.html">Events</a>
+            <a href="the-orbit-way.html">The Orbit Way</a>
+            <a href="join.html">Join</a>
+        </div>
+    </div>
+    <main>
+
+        <section id="join" class="page-section active" style="display: block; opacity: 1; padding-top: 80px;">
+            <div class="container padding-y small-container">
+                <h1 class="animate-up">STAY IN ORBIT</h1>
+                <p class="muted-text mb-8 animate-up" style="text-transform:lowercase">drop your details. you'll hear about events before anyone else. no spam. ever.</p>
+                
+                <div id="join-form-container" class="animate-up">
+                    <script>var joinSubmitted=false;</script>
+                    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(joinSubmitted) { document.getElementById('join-form-container').innerHTML = '<div class=\'success-message animate-up\'><h2>you\'re in orbit now.</h2><p style=\'text-transform:lowercase\'>we\'ll be in touch.</p></div>'; }"></iframe>
+                    
+                    <form action="YOUR_GOOGLE_FORM_ACTION_URL" method="POST" target="hidden_iframe" class="join-form" onsubmit="joinSubmitted=true;">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" name="entry.NAME_ID" placeholder="your name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Age</label>
+                            <input type="number" name="entry.AGE_ID" placeholder="22" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Instagram Handle</label>
+                            <div class="input-with-prefix">
+                                <span>@</span>
+                                <input type="text" name="entry.INSTA_ID" placeholder="username" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" name="entry.EMAIL_ID" placeholder="you@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>what are you looking for?</label>
+                            <select name="entry.LOOKING_FOR_ID" required>
+                                <option value="" disabled selected>select an option</option>
+                                <option value="friends">make new friends</option>
+                                <option value="escape">escape the routine</option>
+                                <option value="curious">just curious</option>
+                                <option value="all">all of the above</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-full mt-4">i'm in →</button>
+                    </form>
+                </div>
+                
+                <div class="mt-12 text-center animate-up">
+                    <a href="https://www.instagram.com/socialorbit.lhr/" target="_blank" rel="noopener noreferrer" class="btn btn-pill inline-flex items-center gap-2">
+                        <i data-lucide="instagram" style="width:16px; height:16px;"></i> @socialorbit.lhr
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+    <footer class="site-footer">
+        <div class="container text-center">
+            <a href="index.html" style="display:inline-block; margin-bottom: 16px;">
+                <img src="Orbit Logo - Purple.png" alt="Social Orbit Logo" class="footer-logo-img">
+            </a>
+            <h2 class="footer-logo mb-4" style="font-family: var(--font-heading); color: var(--primary-start); font-size: 32px; letter-spacing: 2px;">SOCIAL ORBIT</h2>
+            <div class="accent-text mb-6">// lahore, pk</div>
+            <div class="footer-links mb-8">
+                <a href="https://www.instagram.com/socialorbit.lhr/" target="_blank" rel="noopener noreferrer"><i data-lucide="instagram"></i></a>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="events.html">Events</a>
+                <a href="the-orbit-way.html">The Orbit Way</a>
+            </div>
+            <div class="accent-text" style="font-size: 11px;">© social orbit 2025. all rights reserved.</div>
+        </div>
+    </footer>
+    <script src="scripts.js" defer></script>
+</body>
+</html>
