@@ -6,476 +6,15 @@
     <title>Social Orbit | Your Third Space</title>
     <!-- SEO meta tags -->
     <meta name="description" content="Social Orbit — a Gen Z social society based in Lahore, Pakistan. Your third space to meet real people.">
+    <!-- Preload Critical Assets -->
+    <link rel="preload" href="Orbit Logo - Purple.png" as="image">
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,400..700;1,9..40,400..700&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
-    <style>
-        :root {
-            --bg: #1a0a2e;
-            --primary-start: #c45c13;
-            --primary-end: #f0a500;
-            --secondary: #7B2FBE;
-            --text-primary: #f0ece2;
-            --text-muted: #a89fc0;
-            --surface: #2a1245;
-            --border: rgba(240, 165, 0, 0.15);
-            --font-heading: 'Bebas Neue', sans-serif;
-            --font-body: 'DM Sans', sans-serif;
-            --font-accent: 'Space Mono', monospace;
-        }
-
-        html { scroll-behavior: smooth; }
-
-        body {
-            background-color: var(--bg);
-            color: var(--text-primary);
-            font-family: var(--font-body);
-            margin: 0;
-            overflow-x: hidden;
-            -webkit-font-smoothing: antialiased;
-        }
-
-        /* Grain Texture */
-        #noise-overlay {
-            position: fixed;
-            top: -100vh; left: 0; width: 100vw; height: 300vh;
-            pointer-events: none;
-            z-index: 9999;
-            background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
-            opacity: 0.05;
-            will-change: transform;
-        }
-
-        /* Parallax Layer */
-        .parallax-layer {
-            will-change: transform;
-        }
-
-        /* Blur Reveal Words */
-        .blur-word {
-            display: inline-block;
-            filter: blur(8px);
-            opacity: 0.3;
-            color: var(--text-muted);
-            transition: filter 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                        opacity 0.6s cubic-bezier(0.2, 0.8, 0.2, 1), 
-                        color 0.6s cubic-bezier(0.2, 0.8, 0.2, 1),
-                        transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);
-            transform: scale(0.95);
-            will-change: filter, opacity, transform;
-        }
-        .blur-word.revealed {
-            filter: blur(0px);
-            opacity: 1;
-            color: var(--text-primary);
-            transform: scale(1);
-        }
-
-        /* Interactive Logo — kept as static display, 3D tilt removed */
-        .interactive-logo-container {
-            display: inline-block;
-            padding: 20px;
-            margin: 0 auto 24px;
-        }
-        .interactive-logo {
-            font-size: 72px;
-            font-family: var(--font-heading);
-            margin: 0;
-            line-height: 1;
-            background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            filter: drop-shadow(4px 4px 0px #1a0a2e) drop-shadow(8px 8px 0px #000);
-        }
-        @media (min-width: 768px) {
-            .interactive-logo { font-size: 110px; }
-        }
-
-        /* ── Scroll-Driven SVG Orbit Background ── */
-        #orbit-bg {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            pointer-events: none;
-            z-index: 0;
-            overflow: visible;
-        }
-        #orbit-bg ellipse, #orbit-bg path {
-            fill: none;
-            stroke-linecap: round;
-        }
-
-        /* ── Hero Glow Blob ── */
-        .hero-glow-blob {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 600px;
-            height: 400px;
-            background: radial-gradient(ellipse at center, rgba(123,47,190,0.22) 0%, rgba(196,92,19,0.14) 45%, transparent 72%);
-            border-radius: 50%;
-            pointer-events: none;
-            z-index: 0;
-            animation: pulse-glow 4s ease-in-out infinite;
-            will-change: opacity, transform;
-        }
-        @keyframes pulse-glow {
-            0%, 100% { opacity: 0.7; transform: translate(-50%, -50%) scale(1); }
-            50%       { opacity: 1;   transform: translate(-50%, -50%) scale(1.12); }
-        }
-
-        /* ── Scroll Indicator — softer bounce + ripple ── */
-        @keyframes soft-bounce {
-            0%, 100% { transform: translateY(0);    }
-            50%       { transform: translateY(8px);  }
-        }
-        @keyframes ripple-ring {
-            0%   { transform: scale(0.6); opacity: 0.5; }
-            100% { transform: scale(2.2); opacity: 0;   }
-        }
-
-        h1, h2, h3, h4, h5, h6 {
-            font-family: var(--font-heading);
-            letter-spacing: 0.05em;
-            margin: 0;
-            text-transform: uppercase;
-        }
-
-        h1 { font-size: 48px; line-height: 1.1; }
-        h2 { font-size: 32px; }
-
-        @media (min-width: 768px) {
-            h1 { font-size: 64px; }
-            h2 { font-size: 40px; }
-        }
-        @media (min-width: 1024px) {
-            h1 { font-size: 80px; }
-        }
-
-        a { color: inherit; text-decoration: none; }
-        p { line-height: 1.6; margin-bottom: 16px; font-size: 16px; }
-
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
-        .small-container { max-width: 700px; }
-        .padding-y { padding: 120px 0; }
-        .full-height { min-height: 100vh; display: flex; flex-direction: column; justify-content: center; }
-
-        .accent-text { font-family: var(--font-accent); color: var(--text-muted); font-size: 14px; display: block; margin-bottom: 8px;}
-        .muted-text { color: var(--text-muted); }
-        .text-lg { font-size: 18px; }
-
-        /* Utility Classes */
-        .text-center { text-align: center; }
-        .mt-4 { margin-top: 16px; }
-        .mt-8 { margin-top: 32px; }
-        .mt-12 { margin-top: 48px; }
-        .mt-16 { margin-top: 64px; }
-        .mb-4 { margin-bottom: 16px; }
-        .mb-8 { margin-bottom: 32px; }
-        .mb-12 { margin-bottom: 48px; }
-        .w-full { width: 100%; }
-        .flex { display: flex; }
-        .gap-2 { gap: 8px; }
-        .gap-4 { gap: 16px; }
-        .italic { font-style: italic; }
-        .inline-flex { display: inline-flex; }
-        .items-center { align-items: center; }
-        .justify-center { justify-content: center; }
-
-        /* Buttons */
-        .btn {
-            display: inline-flex; align-items: center; justify-content: center;
-            padding: 16px 32px; border-radius: 8px; font-family: var(--font-body);
-            font-weight: 700; border: none; transition: all 0.3s ease; text-transform: lowercase;
-        }
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
-            color: var(--bg); border-radius: 100px;
-        }
-        .btn-primary:hover {
-            transform: translateY(-2px); box-shadow: 0 10px 20px rgba(240, 165, 0, 0.3);
-        }
-        .btn-dark {
-            background: var(--bg); color: var(--text-primary); border: 1px solid var(--secondary);
-        }
-        .btn-dark:hover { background: var(--surface); }
-        .btn-pill {
-            background: rgba(240, 165, 0, 0.1); color: var(--primary-end);
-            border-radius: 100px; border: 1px solid var(--border); padding: 8px 24px;
-        }
-        .btn-pill:hover { background: rgba(240, 165, 0, 0.2); }
-        .btn-text {
-            background: none; border: none; color: var(--text-muted); font-family: var(--font-accent);
-            padding: 0; font-size: 14px; text-transform: lowercase; cursor: none;
-        }
-        .btn-text:hover { color: var(--primary-end); }
-
-        /* Navigation */
-        #navbar {
-            position: fixed; top: 0; left: 0; width: 100%; z-index: 1000;
-            padding: 24px 0; transition: all 0.3s ease;
-        }
-        .nav-container {
-            max-width: 1200px; margin: 0 auto; padding: 0 24px;
-            display: flex; justify-content: space-between; align-items: center;
-        }
-        #navbar.scrolled {
-            padding: 16px 0; background: rgba(26, 10, 46, 0.8);
-            backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        .logo {
-            font-family: var(--font-heading); font-size: 32px;
-            background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
-            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-        }
-        .nav-links { display: flex; gap: 32px; align-items: center; }
-        .nav-links a { font-family: var(--font-accent); font-size: 14px; color: var(--text-muted); transition: color 0.3s; }
-        .nav-links a:hover, .nav-links a.active { color: var(--primary-end); }
-
-        .hamburger { background: none; border: none; color: var(--text-primary); }
-
-        .mobile-menu {
-            position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
-            background: var(--bg); z-index: 2000;
-            display: flex; flex-direction: column; justify-content: center; align-items: center;
-            opacity: 0; pointer-events: none; transition: opacity 0.3s;
-        }
-        .mobile-menu.active { opacity: 1; pointer-events: auto; }
-        .close-menu { position: absolute; top: 24px; right: 24px; background: none; border: none; color: var(--text-primary); }
-        .mobile-nav-links a {
-            font-family: var(--font-heading); font-size: 48px; display: block; margin: 15px 0;
-            opacity: 0; transform: translateY(20px); transition: all 0.3s ease; text-align: center;
-        }
-        .mobile-menu.active .mobile-nav-links a { opacity: 1; transform: translateY(0); }
-
-        @media (max-width: 767px) {
-            .desktop-only { display: none !important; }
-        }
-        @media (min-width: 768px) {
-            .mobile-only { display: none !important; }
-        }
-
-        /* SPA Sections */
-        .page-section { display: none; opacity: 0; transition: opacity 0.4s ease; padding-top: 80px; }
-        .page-section.active { display: block; animation: fadeIn 0.4s forwards; }
-        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-        /* Animations */
-        .animate-up { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
-        .animate-up.in-view { opacity: 1; transform: translateY(0); }
-
-        .animate-left { opacity: 0; transform: translateX(-30px); transition: opacity 0.6s ease, transform 0.6s ease; }
-        .animate-left.in-view { opacity: 1; transform: translateX(0); }
-
-        .animate-scale { opacity: 0; transform: scale(0.95); transition: opacity 0.6s ease, transform 0.6s ease; }
-        .animate-scale.in-view { opacity: 1; transform: scale(1); }
-
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: opacity 0.6s ease, transform 0.6s ease; }
-        .stagger-children.in-view > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
-        .stagger-children.in-view > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
-        .stagger-children.in-view > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
-        
-        .stagger-scale-children > * { opacity: 0; transform: scale(0.95); transition: opacity 0.6s ease, transform 0.6s ease; }
-        .stagger-scale-children.in-view > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: scale(1); }
-        .stagger-scale-children.in-view > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: scale(1); }
-
-        /* Section 1 - Home */
-        .hero { text-align: center; padding-top: 40px; position: relative; }
-        .hero-logo { max-width: 300px; width: 100%; margin: 0 auto 24px; display: block; }
-        .hero-title { font-size: 64px; line-height: 1; margin: 16px 0; }
-        .hero-subline { font-size: 18px; color: var(--text-muted); margin-bottom: 32px; text-transform: lowercase;}
-        @media(min-width: 768px) { .hero-title { font-size: 96px; } .hero-logo { max-width: 400px; } }
-        @media(min-width: 1024px) { .hero-title { font-size: 112px; } }
-
-        /* Scroll indicator — softer with ripple ring */
-        .scroll-indicator-wrap {
-            margin-top: 48px;
-            display: inline-flex;
-            flex-direction: column;
-            align-items: center;
-            position: relative;
-        }
-        .scroll-indicator {
-            animation: soft-bounce 2.4s ease-in-out infinite;
-            color: var(--text-muted);
-            display: inline-block;
-            position: relative;
-            z-index: 1;
-        }
-        .scroll-ripple {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%) scale(0.6);
-            width: 36px; height: 36px;
-            border-radius: 50%;
-            border: 1px solid rgba(240,165,0,0.4);
-            animation: ripple-ring 2.4s ease-out infinite;
-            pointer-events: none;
-        }
-        .scroll-ripple:nth-child(2) { animation-delay: 0.8s; }
-        .scroll-ripple:nth-child(3) { animation-delay: 1.6s; }
-
-        .teaser-cards {
-            display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 24px;
-            margin-top: 48px; padding-bottom: 24px; -webkit-overflow-scrolling: touch;
-            scrollbar-width: none;
-        }
-        .teaser-cards::-webkit-scrollbar { display: none; }
-        .card {
-            flex: 0 0 85%; scroll-snap-align: center;
-            background: rgba(42, 18, 69, 0.6);
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            border: 1px solid var(--border); border-radius: 16px; padding: 32px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease; text-transform: lowercase;
-        }
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(240, 165, 0, 0.18), inset 0 0 0 1px rgba(240,165,0,0.35);
-            border-color: rgba(240, 165, 0, 0.5);
-        }
-        @media (min-width: 768px) {
-            .teaser-cards { display: grid; grid-template-columns: repeat(3, 1fr); overflow-x: visible; }
-            .card { flex: auto; }
-        }
-
-        .events-preview { margin-top: 96px; }
-        .inline-form { display: flex; gap: 8px; flex-direction: column; }
-        .inline-form input { flex: 1; }
-        .inline-form button { padding: 0 24px; }
-        @media (min-width: 768px) { .inline-form { flex-direction: row; max-width: 500px;} }
-
-        .vibe-reel {
-            display: flex; overflow-x: auto; scroll-snap-type: x mandatory; gap: 16px;
-            padding: 24px 0; margin: 96px 0; -webkit-overflow-scrolling: touch; scrollbar-width: none;
-        }
-        .vibe-reel::-webkit-scrollbar { display: none; }
-        .vibe-block {
-            flex: 0 0 200px; height: 200px; scroll-snap-align: center; border-radius: 16px;
-            display: flex; align-items: center; justify-content: center;
-        }
-        .vibe-block h2 { color: var(--text-primary); text-shadow: 2px 2px 0px rgba(0,0,0,0.5); font-size: 48px;}
-        @media (min-width: 768px) {
-            .vibe-reel { overflow-x: visible; justify-content: center; flex-wrap: wrap; }
-            .vibe-block { flex: 1 1 150px; height: 250px; }
-        }
-
-        .final-cta {
-            background: linear-gradient(135deg, var(--primary-start), var(--primary-end));
-            border-radius: 16px; padding: 64px 24px; text-align: center; margin-top: 64px;
-        }
-        .final-cta h2 { color: var(--bg); font-size: 48px; margin-bottom: 24px; }
-
-        /* Section 2 - About */
-        .founder-note {
-            border-left: 4px solid var(--primary-start); margin: 48px 0;
-            background: linear-gradient(90deg, rgba(196, 92, 19, 0.1) 0%, transparent 100%);
-            padding: 24px; border-radius: 0 8px 8px 0;
-        }
-        .pull-quote { font-size: 20px; font-style: italic; color: var(--text-primary); margin-top: 16px; text-transform: lowercase;}
-        .strike-list { list-style: none; padding: 0; margin-top: 16px; text-transform: lowercase;}
-        .strike-list li {
-            font-family: var(--font-heading); font-size: 32px; color: var(--text-muted);
-            text-decoration: line-through; text-decoration-color: var(--primary-start); margin-bottom: 8px;
-        }
-
-        /* ── Third Space Hero Block ── */
-        .what-is {
-            padding: 48px 40px;
-            margin: 48px 0;
-            border-radius: 20px;
-            background: linear-gradient(135deg, rgba(123,47,190,0.12) 0%, rgba(196,92,19,0.08) 60%, rgba(240,165,0,0.05) 100%);
-            border: 1px solid rgba(240,165,0,0.25);
-            box-shadow: 0 0 40px rgba(123,47,190,0.12), 0 0 80px rgba(196,92,19,0.06), inset 0 0 0 1px rgba(255,255,255,0.04);
-            position: relative;
-            overflow: hidden;
-        }
-        .what-is::before {
-            content: '';
-            position: absolute;
-            top: -60px; right: -60px;
-            width: 220px; height: 220px;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(240,165,0,0.12) 0%, transparent 70%);
-            pointer-events: none;
-        }
-        .what-is .accent-text {
-            font-size: 18px;
-            letter-spacing: 0.12em;
-            color: var(--primary-end);
-            margin-bottom: 20px;
-            display: block;
-        }
-        .what-is p {
-            font-size: 23px;
-            line-height: 1.65;
-            color: var(--text-primary);
-            margin: 0;
-        }
-        @media (min-width: 768px) {
-            .what-is p { font-size: 25px; }
-        }
-
-        /* Section 3 - Events */
-        .events-grid { display: grid; grid-template-columns: 1fr; gap: 24px; }
-        @media (min-width: 768px) { .events-grid { grid-template-columns: repeat(2, 1fr); } }
-        .event-card {
-            background: rgba(42, 18, 69, 0.6);
-            backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-            border: 1px solid var(--border); border-radius: 16px;
-            padding: 32px; transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s; cursor: pointer;
-        }
-        .event-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 12px 40px rgba(240, 165, 0, 0.18), inset 0 0 0 1px rgba(240,165,0,0.35);
-            border-color: rgba(240, 165, 0, 0.5);
-        }
-        .event-badges { display: flex; gap: 8px; margin-bottom: 16px; }
-        .badge { padding: 4px 12px; border-radius: 100px; font-family: var(--font-accent); font-size: 12px; font-weight: 700; }
-        .badge.price { background: rgba(240, 165, 0, 0.15); color: var(--primary-end); border: 1px solid var(--primary-end); }
-        .badge.status-open { background: rgba(46, 204, 113, 0.15); color: #2ecc71; border: 1px solid #2ecc71; }
-        .badge.status-sold { background: rgba(231, 76, 60, 0.15); color: #e74c3c; border: 1px solid #e74c3c; }
-        .event-meta { display: flex; align-items: center; gap: 8px; color: var(--text-muted); margin-top: 8px; text-transform: lowercase;}
-        .event-meta i { width: 16px; height: 16px; }
-
-        .timeline { list-style: none; padding: 0; border-left: 2px solid var(--surface); margin-left: 12px; }
-        .timeline li { position: relative; padding-left: 32px; margin-bottom: 24px; }
-        .timeline li::before {
-            content: ""; position: absolute; left: -7px; top: 4px; width: 12px; height: 12px;
-            border-radius: 50%; background: var(--primary-end); box-shadow: 0 0 10px var(--primary-start);
-        }
-        .form-iframe { width: 100%; min-height: 600px; border: none; background: transparent; border-radius: 16px; }
-
-        /* Section 4 - The Orbit Way */
-        .belief-item { display: flex; gap: 24px; align-items: flex-start; margin-bottom: 32px; }
-        .belief-item .number { font-family: var(--font-heading); font-size: 48px; color: var(--primary-start); line-height: 1; }
-        .belief-item p { font-size: 20px; margin: 0; padding-top: 8px; text-transform: lowercase; }
-
-        /* Section 5 - Join */
-        .form-group { margin-bottom: 24px; text-align: left; }
-        .form-group label { display: block; margin-bottom: 8px; font-family: var(--font-accent); color: var(--text-muted); font-size: 14px; text-transform: lowercase;}
-        input, select {
-            width: 100%; background: var(--surface); border: 1px solid var(--border); color: var(--text-primary);
-            padding: 16px; border-radius: 8px; font-family: var(--font-body); transition: all 0.3s ease; box-sizing: border-box;
-        }
-        input:focus, select:focus { outline: none; border-color: var(--primary-end); box-shadow: 0 0 15px rgba(240, 165, 0, 0.2); }
-        .input-with-prefix { display: flex; align-items: center; background: var(--surface); border: 1px solid var(--border); border-radius: 8px; transition: all 0.3s ease; }
-        .input-with-prefix:focus-within { border-color: var(--primary-end); box-shadow: 0 0 15px rgba(240, 165, 0, 0.2); }
-        .input-with-prefix span { padding-left: 16px; color: var(--text-muted); }
-        .input-with-prefix input { border: none; background: transparent; box-shadow: none !important; }
-        .success-message { text-align: center; padding: 48px 0; background: var(--surface); border-radius: 16px; border: 1px solid var(--primary-end); }
-
-        /* Footer */
-        .site-footer { padding: 48px 0 24px; border-top: 1px solid var(--surface); margin-top: 64px; }
-        .footer-logo { max-width: 150px; opacity: 0.5; transition: opacity 0.3s; margin: 0 auto; display: block;}
-        .footer-logo:hover { opacity: 1; }
-        .footer-links { display: flex; justify-content: center; gap: 24px; font-family: var(--font-accent); font-size: 14px; color: var(--text-muted); }
-        .footer-links a:hover { color: var(--primary-end); }
-    </style>
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- ── Scroll-Driven Orbit Background ── -->
@@ -501,18 +40,22 @@
     </svg>
 
     <div id="noise-overlay"></div>
+
     <nav id="navbar">
         <div class="nav-container">
-            <a href="#home" class="logo">Social Orbit</a>
+            <a href="index.html" class="logo">
+                <img src="Orbit Logo - Purple.png" alt="Social Orbit Logo" class="nav-logo-img">
+                Social Orbit
+            </a>
             <div class="nav-links desktop-only">
-                <a href="#home" class="active">Home</a>
-                <a href="#about">About</a>
-                <a href="#events">Events</a>
-                <a href="#the-orbit-way">The Orbit Way</a>
-                <a href="#join">Join</a>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="events.html">Events</a>
+                <a href="the-orbit-way.html">The Orbit Way</a>
+                <a href="join.html">Join</a>
             </div>
             <div class="nav-right desktop-only">
-                <a href="#events" class="btn btn-pill">grab a spot</a>
+                <a href="events.html" class="btn btn-pill">grab a spot</a>
             </div>
             <button class="hamburger mobile-only">
                 <i data-lucide="menu"></i>
@@ -523,19 +66,17 @@
     <div class="mobile-menu">
         <button class="close-menu"><i data-lucide="x"></i></button>
         <div class="mobile-nav-links">
-            <a href="#home">Home</a>
-            <a href="#about">About</a>
-            <a href="#events">Events</a>
-            <a href="#the-orbit-way">The Orbit Way</a>
-            <a href="#join">Join</a>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="events.html">Events</a>
+            <a href="the-orbit-way.html">The Orbit Way</a>
+            <a href="join.html">Join</a>
         </div>
     </div>
-
     <main>
-        <!-- SECTION 1: HOME -->
-        <section id="home" class="page-section active">
+
+        <section id="home" class="page-section active" style="display: block; opacity: 1; padding-top: 80px;">
             <div class="hero container full-height">
-                <!-- Pulsing glow blob behind hero text -->
                 <div class="hero-glow-blob"></div>
                 <div class="parallax-layer" data-speed="-0.1">
                     <div class="interactive-logo-container animate-up" style="transition-delay: 0.1s">
@@ -559,7 +100,7 @@
                 </div>
                 <div class="parallax-layer" data-speed="-0.3">
                     <div class="animate-up" style="transition-delay: 0.5s">
-                        <a href="#join" class="btn btn-primary">grab your spot →</a>
+                        <a href="join.html" class="btn btn-primary">grab your spot →</a>
                     </div>
                 </div>
                 <div class="parallax-layer" data-speed="-0.2">
@@ -591,15 +132,18 @@
             
             <div class="events-preview container mt-16">
                 <h2 class="animate-up mb-8">NEXT ORBIT</h2>
-                <div class="event-card animate-scale" onclick="switchSection('#events')">
-                    <div class="event-badges">
-                        <span class="badge price">2,500 PKR</span>
-                        <span class="badge status-open">OPEN</span>
+                <div class="animate-scale">
+                    
+                    <div class="event-card" onclick="window.location.href='event-1.html'">
+                        <div class="event-badges">
+                            <span class="badge price" >1500 PKR</span>
+                            <span class="badge status-open">OPEN</span>
+                        </div>
+                        <h2>Ugly Art</h2>
+                        <p class="event-meta"><i data-lucide="calendar"></i> 2026-05-06</p>
+                        <p class="event-meta"><i data-lucide="map-pin"></i> Art</p>
+                        <button class="btn btn-primary mt-4">see details →</button>
                     </div>
-                    <h2>The First Orbit</h2>
-                    <p class="event-meta"><i data-lucide="calendar"></i> friday, 8:00 pm</p>
-                    <p class="event-meta"><i data-lucide="map-pin"></i> gulberg, lahore</p>
-                    <button class="btn btn-primary mt-4">see details →</button>
                 </div>
             </div>
             
@@ -615,480 +159,29 @@
             <div class="container pb-16">
                 <div class="final-cta animate-up">
                     <h2>stay in orbit.</h2>
-                    <a href="#join" class="btn btn-dark">join the list</a>
+                    <a href="join.html" class="btn btn-dark">join the list</a>
                 </div>
             </div>
         </section>
 
-        <!-- SECTION 2: ABOUT -->
-        <section id="about" class="page-section">
-            <div class="container small-container padding-y">
-                <h1 class="animate-up">LAHORE'S SOCIAL SCENE NEEDED AN INTERVENTION.</h1>
-                <p class="muted-text text-lg animate-up mt-8" style="text-transform:lowercase">
-                    every place in the city is either a loud restaurant where you can't hear yourself think, a stiff networking event filled with linkedin humble-brags, or a wedding you didn't want to attend. we were tired of having nowhere to just exist and meet real people.
-                </p>
-                
-                <div class="founder-note animate-up">
-                    <span class="accent-text">// why we started</span>
-                    <p class="pull-quote">
-                        <!-- COMMENT: [FOUNDER NOTE — INSERT YOUR OWN WORDS HERE] -->
-                        "i built social orbit because i realized my screen time was up 40% and i hadn't made a new friend in two years. we needed a space that asked nothing of us except to show up."
-                    </p>
-                </div>
-                
-                <div class="what-is block animate-up mb-12">
-                    <span class="accent-text">// the third space</span>
-                    <p style="text-transform:lowercase">it's not home, it's not work. it's the space in between. a curated room where the friction of meeting strangers is removed, leaving just good conversation.</p>
-                </div>
-                
-                <div class="what-not block animate-up mb-12">
-                    <span class="accent-text">// let's be clear</span>
-                    <ul class="strike-list">
-                        <li>a networking event</li>
-                        <li>a therapy session</li>
-                        <li>a brand activation</li>
-                        <li>another lahore "social club"</li>
-                    </ul>
-                    <p class="mt-4" style="text-transform:lowercase">just people. coffee. and something to do with your hands.</p>
-                </div>
-                
-                <div class="founders-block animate-up mt-16 flex items-center gap-4">
-                    <div style="width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--primary-start), var(--primary-end)); display:flex; justify-content:center; align-items:center;">
-                        <i data-lucide="user" style="color:var(--bg)"></i>
-                    </div>
-                    <div class="founder-info">
-                        <!-- COMMENT: [YOUR NAME] [ONE LINE ABOUT YOU] -->
-                        <strong style="font-size: 20px;">[Founder Name]</strong>
-                        <p class="muted-text" style="text-transform:lowercase; margin:0;">[professional overthinker and coffee enthusiast]</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 3: EVENTS -->
-        <section id="events" class="page-section">
-            <div class="container padding-y">
-                <h1 class="animate-up">ORBITS</h1>
-                <span class="accent-text animate-up">// what's happening</span>
-                
-                <div class="events-grid mt-8 stagger-scale-children">
-                    <div class="event-card" onclick="showEventDetails('event1')">
-                        <div class="event-badges">
-                            <span class="badge price">2,500 PKR</span>
-                            <span class="badge status-open">OPEN</span>
-                        </div>
-                        <h2>The First Orbit</h2>
-                        <p class="event-meta"><i data-lucide="calendar"></i> friday, 8:00 pm</p>
-                        <p class="event-meta"><i data-lucide="map-pin"></i> gulberg, lahore</p>
-                        <button class="btn btn-primary mt-4">see details →</button>
-                    </div>
-                    
-                    <div class="event-card" onclick="showEventDetails('event2')">
-                        <div class="event-badges">
-                            <span class="badge price">3,000 PKR</span>
-                            <span class="badge status-sold">SOLD OUT</span>
-                        </div>
-                        <h2>Game Night</h2>
-                        <p class="event-meta"><i data-lucide="calendar"></i> saturday, 7:00 pm</p>
-                        <p class="event-meta"><i data-lucide="map-pin"></i> dha phase 5, lahore</p>
-                        <button class="btn btn-primary mt-4">see details →</button>
-                    </div>
-                </div>
-
-                <!-- Empty State Example (Commented out)
-                <div class="empty-state animate-up text-center py-16 mt-16">
-                    <h2 class="muted-text" style="font-size: 48px;">nothing yet.</h2>
-                    <p class="mt-4" style="text-transform:lowercase">first orbit is being planned. get on the list and you'll hear first.</p>
-                    <form class="inline-form justify-center mt-6 mx-auto" style="max-width:400px; margin: 24px auto 0;" onsubmit="event.preventDefault(); this.innerHTML = '<p class=\'accent-text\'>you\'re on the list.</p>';">
-                        <input type="email" placeholder="your@email.com" required>
-                        <button type="submit" class="btn btn-primary">→</button>
-                    </form>
-                </div>
-                -->
-            </div>
-        </section>
-
-        <!-- Individual Event Pages Container -->
-        <section id="event-details" class="page-section">
-            <div class="container padding-y small-container">
-                <button class="btn-text mb-8 inline-flex items-center gap-2" onclick="switchSection('#events')">
-                    <i data-lucide="arrow-left" style="width:16px; height:16px;"></i> back to orbits
-                </button>
-                <div id="event-content" class="animate-up">
-                    <!-- Content injected via JS -->
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 4: THE ORBIT WAY -->
-        <section id="the-orbit-way" class="page-section full-height">
-            <div class="container padding-y">
-                <h1 class="animate-up" style="font-size: 64px;">THE ORBIT WAY</h1>
-                <p class="italic muted-text animate-up mb-12 text-lg">a few things we believe in.</p>
-                
-                <div class="belief-list">
-                    <div class="belief-item animate-left">
-                        <span class="number">01</span>
-                        <p>phones stay in pockets during the orbit.</p>
-                    </div>
-                    <div class="belief-item animate-left">
-                        <span class="number">02</span>
-                        <p>no one gets left standing alone.</p>
-                    </div>
-                    <div class="belief-item animate-left">
-                        <span class="number">03</span>
-                        <p>ugly art is better than no art.</p>
-                    </div>
-                    <div class="belief-item animate-left">
-                        <span class="number">04</span>
-                        <p>your social battery sticker is a contract. we respect it.</p>
-                    </div>
-                    <div class="belief-item animate-left">
-                        <span class="number">05</span>
-                        <p>this is not content. please don't make it content.</p>
-                    </div>
-                    <div class="belief-item animate-left">
-                        <span class="number">06</span>
-                        <p>you don't have to be "on." just be here.</p>
-                    </div>
-                    <div class="belief-item animate-left">
-                        <span class="number">07</span>
-                        <p>the wind-down is part of the event. don't rush out.</p>
-                    </div>
-                    <div class="belief-item animate-left">
-                        <span class="number">08</span>
-                        <p>if you come once, you're already one of us.</p>
-                    </div>
-                </div>
-                
-                <div class="mt-16 animate-up">
-                    <span class="accent-text">// orbit.lahore</span>
-                </div>
-            </div>
-        </section>
-
-        <!-- SECTION 5: JOIN -->
-        <section id="join" class="page-section">
-            <div class="container padding-y small-container">
-                <h1 class="animate-up">STAY IN ORBIT</h1>
-                <p class="muted-text mb-8 animate-up" style="text-transform:lowercase">drop your details. you'll hear about events before anyone else. no spam. ever.</p>
-                
-                <div id="join-form-container" class="animate-up">
-                    <!-- Hidden iframe to prevent Google Forms redirect -->
-                    <script>var joinSubmitted=false;</script>
-                    <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(joinSubmitted) { document.getElementById('join-form-container').innerHTML = '<div class=\'success-message animate-up\'><h2>you\'re in orbit now.</h2><p style=\'text-transform:lowercase\'>we\'ll be in touch.</p></div>'; }"></iframe>
-                    
-                    <!-- COMMENT: Replace action URL with your Google Form action URL, and update name attributes to match the entry IDs (e.g., entry.123456) -->
-                    <form action="YOUR_GOOGLE_FORM_ACTION_URL" method="POST" target="hidden_iframe" class="join-form" onsubmit="joinSubmitted=true;">
-                        <div class="form-group">
-                            <label>Full Name</label>
-                            <input type="text" name="entry.NAME_ID" placeholder="your name" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Age</label>
-                            <input type="number" name="entry.AGE_ID" placeholder="22" required>
-                        </div>
-                        <div class="form-group">
-                            <label>Instagram Handle</label>
-                            <div class="input-with-prefix">
-                                <span>@</span>
-                                <input type="text" name="entry.INSTA_ID" placeholder="username" required>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label>Email Address</label>
-                            <input type="email" name="entry.EMAIL_ID" placeholder="you@example.com" required>
-                        </div>
-                        <div class="form-group">
-                            <label>what are you looking for?</label>
-                            <select name="entry.LOOKING_FOR_ID" required>
-                                <option value="" disabled selected>select an option</option>
-                                <option value="friends">make new friends</option>
-                                <option value="escape">escape the routine</option>
-                                <option value="curious">just curious</option>
-                                <option value="all">all of the above</option>
-                            </select>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-full mt-4">i'm in →</button>
-                    </form>
-                </div>
-                
-                <div class="mt-12 text-center animate-up">
-                    <!-- COMMENT: Replace # with your actual Instagram URL -->
-                    <a href="https://www.instagram.com/socialorbit.lhr/" target="_blank" rel="noopener noreferrer" class="btn btn-pill inline-flex items-center gap-2">
-                        <i data-lucide="instagram" style="width:16px; height:16px;"></i> @socialorbit.lhr
-                    </a>
-                </div>
-            </div>
-        </section>
     </main>
-
     <footer class="site-footer">
         <div class="container text-center">
-            <!-- Text logo since image is removed -->
+            <a href="index.html" style="display:inline-block; margin-bottom: 16px;">
+                <img src="Orbit Logo - Purple.png" alt="Social Orbit Logo" class="footer-logo-img">
+            </a>
             <h2 class="footer-logo mb-4" style="font-family: var(--font-heading); color: var(--primary-start); font-size: 32px; letter-spacing: 2px;">SOCIAL ORBIT</h2>
             <div class="accent-text mb-6">// lahore, pk</div>
             <div class="footer-links mb-8">
-                <!-- COMMENT: Replace # with your actual Instagram URL -->
                 <a href="https://www.instagram.com/socialorbit.lhr/" target="_blank" rel="noopener noreferrer"><i data-lucide="instagram"></i></a>
-                <a href="#home">Home</a>
-                <a href="#about">About</a>
-                <a href="#events">Events</a>
-                <a href="#the-orbit-way">The Orbit Way</a>
+                <a href="index.html">Home</a>
+                <a href="about.html">About</a>
+                <a href="events.html">Events</a>
+                <a href="the-orbit-way.html">The Orbit Way</a>
             </div>
             <div class="accent-text" style="font-size: 11px;">© social orbit 2025. all rights reserved.</div>
         </div>
     </footer>
-
-    <script>
-        // Intersection Observer for scroll animations
-        const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
-        const observer = new IntersectionObserver((entries, observer) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('in-view');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        function initAnimations() {
-            document.querySelectorAll('.animate-up, .animate-left, .animate-scale, .stagger-children, .stagger-scale-children').forEach(el => {
-                el.classList.remove('in-view');
-                observer.observe(el);
-            });
-        }
-
-        // SPA Navigation Logic
-        function switchSection(hash) {
-            if (!hash || hash === '') hash = '#home';
-            const target = document.querySelector(hash);
-            if (target && target.classList.contains('page-section')) {
-                document.querySelectorAll('.page-section').forEach(sec => sec.classList.remove('active'));
-                target.classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-                setTimeout(initAnimations, 50);
-
-                document.querySelectorAll('.nav-links a, .mobile-nav-links a').forEach(link => {
-                    link.classList.toggle('active', link.getAttribute('href') === hash);
-                });
-                document.querySelector('.mobile-menu').classList.remove('active');
-            }
-        }
-
-        window.addEventListener('hashchange', () => switchSection(location.hash));
-        window.addEventListener('load', () => {
-            switchSection(location.hash);
-            lucide.createIcons();
-        });
-
-        // Sticky Navbar and Parallax
-        const noiseOverlay = document.getElementById('noise-overlay');
-        const parallaxLayers = document.querySelectorAll('.parallax-layer');
-        const blurWords = document.querySelectorAll('.blur-word');
-        let ticking = false;
-
-        function updateParallax() {
-            const scrollY = window.scrollY;
-            
-            // Background grain moves opposite (downward)
-            if (noiseOverlay) {
-                noiseOverlay.style.transform = `translateY(${scrollY * 0.15}px)`;
-            }
-
-            // Layer parallax
-            parallaxLayers.forEach(layer => {
-                const speed = parseFloat(layer.getAttribute('data-speed')) || 0;
-                layer.style.transform = `translateY(${scrollY * speed}px)`;
-            });
-            
-            // Text reveal
-            const revealStart = 10; 
-            const revealEnd = 250; 
-            const scrollProgress = Math.max(0, Math.min(1, (scrollY - revealStart) / (revealEnd - revealStart)));
-            
-            blurWords.forEach((word, index) => {
-                const wordThreshold = index / blurWords.length;
-                if (scrollProgress > wordThreshold) {
-                    word.classList.add('revealed');
-                } else {
-                    word.classList.remove('revealed');
-                }
-            });
-
-            ticking = false;
-        }
-
-        window.addEventListener('scroll', () => {
-            const nav = document.getElementById('navbar');
-            if (window.scrollY > 50) nav.classList.add('scrolled');
-            else nav.classList.remove('scrolled');
-
-            if (!ticking) {
-                window.requestAnimationFrame(updateParallax);
-                ticking = true;
-            }
-        });
-        
-        // Initial setup
-        updateParallax();
-
-        // Mobile Menu
-        document.querySelector('.hamburger').addEventListener('click', () => {
-            document.querySelector('.mobile-menu').classList.add('active');
-            const links = document.querySelectorAll('.mobile-nav-links a');
-            links.forEach((link, index) => {
-                link.style.transitionDelay = `${0.1 * (index + 1)}s`;
-            });
-        });
-        document.querySelector('.close-menu').addEventListener('click', () => {
-            document.querySelector('.mobile-menu').classList.remove('active');
-            document.querySelectorAll('.mobile-nav-links a').forEach(link => link.style.transitionDelay = '0s');
-            // Allow close on link click too
-        });
-        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                document.querySelector('.mobile-menu').classList.remove('active');
-            });
-        });
-
-        // ── Scroll-Driven Orbit Animation ──
-        (function initOrbitAnimation() {
-            const ring1 = document.getElementById('orbit-ring-1');
-            const ring2 = document.getElementById('orbit-ring-2');
-            const ring3 = document.getElementById('orbit-ring-3');
-            const planet = document.getElementById('orbit-planet');
-
-            if (!ring1 || !planet) return;
-
-            // Compute perimeters using SVG method
-            function getPerimeter(el) {
-                try { return el.getTotalLength(); } catch(e) {
-                    // Fallback for ellipse: approx Ramanujan formula
-                    const rx = parseFloat(el.getAttribute('rx'));
-                    const ry = parseFloat(el.getAttribute('ry'));
-                    const a = Math.max(rx, ry), b = Math.min(rx, ry);
-                    const h = Math.pow(a - b, 2) / Math.pow(a + b, 2);
-                    return Math.PI * (a + b) * (1 + (3 * h) / (10 + Math.sqrt(4 - 3 * h)));
-                }
-            }
-
-            const p1 = getPerimeter(ring1);
-            const p2 = getPerimeter(ring2);
-            const p3 = getPerimeter(ring3);
-
-            // Initialise dash — fully hidden
-            [{ el: ring1, p: p1 }, { el: ring2, p: p2 }, { el: ring3, p: p3 }].forEach(({ el, p }) => {
-                el.style.strokeDasharray  = p;
-                el.style.strokeDashoffset = p;
-                el.style.transition = 'none';
-            });
-
-            let orbitTicking = false;
-
-            function updateOrbit() {
-                const scrollY = window.scrollY;
-                const maxScroll = document.documentElement.scrollHeight - window.innerHeight;
-                const progress = maxScroll > 0 ? Math.min(1, scrollY / maxScroll) : 0;
-
-                // Draw each ring progressively (stagger start points)
-                const drawRing = (el, p, startAt, endAt) => {
-                    const t = Math.max(0, Math.min(1, (progress - startAt) / (endAt - startAt)));
-                    el.style.strokeDashoffset = p * (1 - t);
-                };
-                drawRing(ring1, p1, 0,    0.85);
-                drawRing(ring2, p2, 0.05, 0.90);
-                drawRing(ring3, p3, 0.10, 0.95);
-
-                // Animate planet dot along outer ellipse parametrically
-                const cx = 720, cy = 450, rx = 650, ry = 310;
-                const angle = progress * 2 * Math.PI - Math.PI / 2;
-                const px = cx + rx * Math.cos(angle);
-                const py = cy + ry * Math.sin(angle);
-                planet.setAttribute('cx', px);
-                planet.setAttribute('cy', py);
-
-                orbitTicking = false;
-            }
-
-            window.addEventListener('scroll', () => {
-                if (!orbitTicking) {
-                    requestAnimationFrame(updateOrbit);
-                    orbitTicking = true;
-                }
-            }, { passive: true });
-
-            updateOrbit();
-        })();
-
-        // Dynamic Events Logic
-        const eventsData = {
-            event1: {
-                title: "The First Orbit",
-                date: "friday, 8:00 pm",
-                location: "gulberg, lahore",
-                price: "2,500 PKR",
-                description: "our inaugural meetup. no pressure, no rigid structure. just good people, a comfortable environment, and some light icebreakers to get the conversation flowing.",
-                schedule: [
-                    { time: "8:00 pm", text: "doors open. grab a coffee." },
-                    { time: "8:30 pm", text: "low-stakes icebreakers." },
-                    { time: "9:30 pm", text: "open mingling." },
-                    { time: "11:00 pm", text: "wind down." }
-                ],
-                // COMMENT: Replace with your actual Google Form embedded URL
-                formUrl: "about:blank" 
-            },
-            event2: {
-                title: "Game Night",
-                date: "saturday, 7:00 pm",
-                location: "dha phase 5, lahore",
-                price: "3,000 PKR",
-                description: "board games, card games, and questionable strategies. whether you're a catan master or just here for the snacks, it's going to be a good time.",
-                schedule: [
-                    { time: "7:00 pm", text: "arrival & team drafting." },
-                    { time: "7:30 pm", text: "games begin." },
-                    { time: "9:00 pm", text: "pizza break." },
-                    { time: "10:30 pm", text: "final rounds." }
-                ],
-                // COMMENT: Replace with your actual Google Form embedded URL
-                formUrl: "about:blank" 
-            }
-        };
-
-        function showEventDetails(eventId) {
-            const data = eventsData[eventId];
-            if(!data) return;
-
-            const content = `
-                <h1 class="mb-4">${data.title}</h1>
-                <div class="flex gap-4 mb-8">
-                    <span class="badge price">${data.price}</span>
-                    <span class="muted-text inline-flex items-center gap-2"><i data-lucide="calendar"></i> ${data.date}</span>
-                    <span class="muted-text inline-flex items-center gap-2"><i data-lucide="map-pin"></i> ${data.location}</span>
-                </div>
-                <p class="text-lg mb-8" style="text-transform:lowercase">${data.description}</p>
-                
-                <h3 class="mb-4">the flow</h3>
-                <ul class="timeline mb-12">
-                    ${data.schedule.map(s => `
-                        <li class="animate-up">
-                            <span class="accent-text">${s.time}</span>
-                            <p style="text-transform:lowercase">${s.text}</p>
-                        </li>
-                    `).join('')}
-                </ul>
-                
-                <h3 class="mb-4">secure your spot</h3>
-                <div class="animate-up">
-                    <iframe src="${data.formUrl}" class="form-iframe" frameborder="0" marginheight="0" marginwidth="0">Loading…</iframe>
-                </div>
-            `;
-            
-            document.getElementById('event-content').innerHTML = content;
-            lucide.createIcons();
-            switchSection('#event-details');
-        }
-    </script>
+    <script src="scripts.js" defer></script>
 </body>
 </html>
