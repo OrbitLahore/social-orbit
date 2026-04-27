@@ -10,6 +10,7 @@
   "description": "",
   "main": "create_db.js",
   "scripts": {
+    "build": "node generate_pages.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
